@@ -2,7 +2,7 @@ import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-lights-out-imperative',
   standalone: true,
   imports: [NgFor, NgClass, NgIf],
   template: `
@@ -28,7 +28,7 @@ import { Component, OnInit } from '@angular/core';
     </button>
   `,
 })
-export default class HomeComponent implements OnInit {
+export default class LightsOutImperativeComponent implements OnInit {
   grid: boolean[] = new Array(25).fill(false);
   levels: boolean[][] = [];
   current_level = 0;

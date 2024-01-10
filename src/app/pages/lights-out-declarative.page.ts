@@ -1,6 +1,6 @@
-import { NgClass, NgFor, NgIf, AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
-import { Subject, map, merge, of, scan, startWith, withLatestFrom } from 'rxjs';
+import { NgClass, NgFor, NgIf, AsyncPipe } from "@angular/common";
+import { Component } from "@angular/core";
+import { Subject, map, merge, of, scan, startWith, withLatestFrom } from "rxjs";
 
 let level_1 = new Array(25).fill(false);
 [10, 12, 14].forEach((i) => (level_1[i] = true));
@@ -15,7 +15,7 @@ function getLevel(i: number) {
 }
 
 @Component({
-  selector: 'app-home',
+  selector: "app-lights-out-declarative",
   standalone: true,
   imports: [NgFor, NgClass, NgIf, AsyncPipe],
   template: `
@@ -25,7 +25,7 @@ function getLevel(i: number) {
         class="rounded-md p-12"
         [class.bg-red-500]="isCellActive"
         [class.bg-stone-400]="!isCellActive"
-        (click)="toggleTrigger$.next(i)"
+        (click)="(toggleTrigger$.next)"
       ></button>
     </div>
     <p class="text-4xl mt-8" [ngClass]="{ invisible: !(won$ | async) }">
@@ -46,7 +46,7 @@ function getLevel(i: number) {
     </button>
   `,
 })
-export default class HomeComponent {
+export default class LightsOutDeclarativeComponent {
   // Sources
   resetTrigger$ = new Subject<void>();
   nextLevelTrigger$ = new Subject<void>();
@@ -55,7 +55,7 @@ export default class HomeComponent {
   // States
   currentLevel$ = merge(
     of({}),
-    this.nextLevelTrigger$.pipe(map(() => ({ delta: 1 })))
+    this.nextLevelTrigger$.pipe(map(() => ({ delta: 1 }))),
   ).pipe(
     scan((acc, curr: { delta?: number }) => {
       if (!curr.delta) return acc;
@@ -64,21 +64,21 @@ export default class HomeComponent {
         return 0;
       }
       return acc + curr.delta;
-    }, 0)
+    }, 0),
   );
 
   grid$ = merge(
     of({}),
     this.resetTrigger$.pipe(
       withLatestFrom(this.currentLevel$),
-      map(([, level]) => ({ level }))
+      map(([, level]) => ({ level })),
     ),
     this.currentLevel$.pipe(
       map((level) => ({
         level,
-      }))
+      })),
     ),
-    this.toggleTrigger$.pipe(map((i) => ({ i })))
+    this.toggleTrigger$.pipe(map((i) => ({ i }))),
   ).pipe(
     scan<{ level?: number; i?: number; reset?: boolean }, boolean[]>(
       (acc, curr) => {
@@ -108,15 +108,15 @@ export default class HomeComponent {
 
         return acc;
       },
-      getLevel(0)
-    )
+      getLevel(0),
+    ),
   );
 
   won$ = merge(
     merge(this.resetTrigger$, this.nextLevelTrigger$).pipe(map(() => false)),
     this.toggleTrigger$.pipe(
       withLatestFrom(this.grid$),
-      map(([, grid]) => grid.every((v) => v === false))
-    )
+      map(([, grid]) => grid.every((v) => v === false)),
+    ),
   ).pipe(startWith(false));
 }
