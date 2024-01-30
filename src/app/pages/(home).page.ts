@@ -1,4 +1,4 @@
-import { Component, ɵɵpureFunction5 } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -7,14 +7,15 @@ import { RouterLink } from '@angular/router';
   imports: [RouterLink],
   template: `
     <ul class="text-3xl flex flex-col gap-4">
-      <li>
+      <li class="bg-orange-700">
         <a [routerLink]="['/lights_out_declarative']">Lights out imperative</a>
       </li>
-      <li>
+      <li class="bg-orange-700">
         <a [routerLink]="['/lights_out_imperative']">Lights out declarative</a>
       </li>
-      <li><a [routerLink]="['/generic-forms']">Generic Forms</a></li>
-      <li></li>
+      <li class="bg-orange-700">
+        <a [routerLink]="['/generic-forms']">Generic Forms</a>
+      </li>
     </ul>
   `,
 })

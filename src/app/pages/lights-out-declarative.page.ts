@@ -119,4 +119,8 @@ export default class LightsOutDeclarativeComponent {
       map(([, grid]) => grid.every((v) => v === false)),
     ),
   ).pipe(startWith(false));
+
+  test = this.won$.pipe(
+  )
+
 }

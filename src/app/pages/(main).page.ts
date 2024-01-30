@@ -1,6 +1,10 @@
 import { Component, ɵɵpureFunction5 } from "@angular/core";
 import { RouterLink } from "@angular/router";
 
+
+
+
+
 @Component({
   selector: "home",
   standalone: true,
@@ -15,6 +19,9 @@ import { RouterLink } from "@angular/router";
   `,
 
 })
+
+
+
 export default class HomeComponent {
   links: { name: string, route: string }[] = [
     { name: 'Lights out imperative', route: 'lights-out-imperative' },

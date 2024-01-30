@@ -12,6 +12,7 @@ import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
+  ValidatorFn,
 } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -24,12 +25,14 @@ type InputText = {
   type: 'input_text';
   label: Label;
   defaultValue: string | undefined;
+  validators: ValidatorFn[]
 };
 type InputNumber = {
   id: ElementId;
   type: 'input_number';
   label: Label;
   defaultValue: number | undefined;
+  validators: ValidatorFn[]
 };
 type InputSelect = {
   id: ElementId;
@@ -37,6 +40,7 @@ type InputSelect = {
   label: Label;
   options: OptionId[];
   defaultValue: OptionId;
+  validators: ValidatorFn[]
 };
 
 type FormElements = InputText | InputNumber | InputSelect;
@@ -104,7 +108,7 @@ export class GenericFormComponent {
   ngOnInit(): void {
     this.formGroup = new FormGroup(
       this.formConfig.reduce((fg, element) => {
-        fg[element.id] = new FormControl(element.defaultValue, {});
+        fg[element.id] = new FormControl(element.defaultValue, { validators: element.validators });
         return fg;
       }, {} as { [key: ElementId]: FormControl })
     );
@@ -130,12 +134,14 @@ export default class GenericFormsComponent {
       type: 'input_text',
       label: 'Username',
       defaultValue: 'vincentole',
+      validators: [],
     },
     {
       id: 'count',
       type: 'input_number',
       label: 'Count',
       defaultValue: undefined,
+      validators: [],
     },
     {
       id: 'distros',
@@ -143,6 +149,7 @@ export default class GenericFormsComponent {
       label: 'Distros',
       options: ['Ubuntu', 'Arch'],
       defaultValue: 'Ubuntu',
+      validators: [],
     },
   ];
 }
